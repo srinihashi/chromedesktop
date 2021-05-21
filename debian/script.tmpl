@@ -1,4 +1,5 @@
 #!/bin/bash
+LOG_FILE=/tmp/log.log
 
 # Cloud start-script would like something like this:
 # > curl -k https://raw.githubusercontent.com/srinihashi/chromedesktop/main/debian/script.tmpl -o /tmp/script.sh
@@ -6,35 +7,50 @@
 # > /tmp/script.sh
 
 # Update the package manager data and install wget
+echo "sudo apt update" >> ${LOG_FILE}
 sudo apt update
+echo "sudo apt-get install --assume-yes wget" >> ${LOG_FILE}
 sudo apt-get install --assume-yes wget
 
 # Download the Debian Linux Chrome Remote Desktop installation package
-wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+echo "wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb" >> ${LOG_FILE}
+wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb >> ${LOG_FILE}
 
 #Install the package and its dependencies
-sudo dpkg --install chrome-remote-desktop_current_amd64.deb
-sudo apt install --assume-yes --fix-broken
+echo "sudo dpkg --install chrome-remote-desktop_current_amd64.deb" >> ${LOG_FILE}
+sudo dpkg --install chrome-remote-desktop_current_amd64.deb >> ${LOG_FILE}
+echo "sudo apt install --assume-yes --fix-broken" >> ${LOG_FILE}
+sudo apt install --assume-yes --fix-broken >> ${LOG_FILE}
 
 # Installing an X Windows System (Xfce) desktop environment
-sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes xfce4 desktop-base
+echo "sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes xfce4 desktop-base" >> ${LOG_FILE}
+sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes xfce4 desktop-base >> ${LOG_FILE}
 
 # Configure Chrome Remote Desktop to use Xfce by default
-sudo bash -c 'echo "exec /etc/X11/Xsession /usr/bin/xfce4-session" > /etc/chrome-remote-desktop-session'
+echo "sudo bash -c echo exec /etc/X11/Xsession /usr/bin/xfce4-session > /etc/chrome-remote-desktop-session" >> ${LOG_FILE}
+sudo bash -c 'echo "exec /etc/X11/Xsession /usr/bin/xfce4-session" > /etc/chrome-remote-desktop-session' >> ${LOG_FILE}
 
 # Xfce's default screen locker is Light Locker, which doesn't work with Chrome Remote Desktop. (The screen locker displays a blank screen and cannot be unlocked). Therefore, install XScreenSaver as an alternative:
-sudo apt install --assume-yes xscreensaver
+echo "sudo apt install --assume-yes xscreensaver" >> ${LOG_FILE}
+sudo apt install --assume-yes xscreensaver >> ${LOG_FILE}
 
 # Optionally, install the full suite of Linux desktop applications, including the Firefox browser, LibreOffice office application suite, and the Evince PDF viewer
+echo "sudo apt install --assume-yes task-xfce-desktop" >> ${LOG_FILE}
 sudo apt install --assume-yes task-xfce-desktop
 
 # Disable the display manager service on your instance. There is no display connected to your instance, so the display manager service won't start
+echo "sudo systemctl disable lightdm.service" >> ${LOG_FILE}
 sudo systemctl disable lightdm.service
 
 # Optionally, install the Chrome browser on your instance
+echo "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" >> ${LOG_FILE}
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+echo "sudo dpkg --install google-chrome-stable_current_amd64.deb" >> ${LOG_FILE}
 sudo dpkg --install google-chrome-stable_current_amd64.deb
+
+echo "sudo apt install --assume-yes --fix-broken" >> ${LOG_FILE}
 sudo apt install --assume-yes --fix-broken
 
 # Create this file to indicate the completion of this script
-cat "# CHROME DESKTOP SUCCESSFULLY INSTALLED!!! On your local computer, go to the Chrome Remote Desktop (https://remotedesktop.google.com/headless) to setup a new desktop" > /tmp/chromedesktop_installed.txt
+echo "# CHROME DESKTOP SUCCESSFULLY INSTALLED!!! On your local computer, go to the Chrome Remote Desktop (https://remotedesktop.google.com/headless) to setup a new desktop" >> ${LOG_FILE}
