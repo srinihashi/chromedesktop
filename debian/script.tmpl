@@ -30,3 +30,6 @@ sudo systemctl disable lightdm.service
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg --install google-chrome-stable_current_amd64.deb
 sudo apt install --assume-yes --fix-broken
+
+# Create this file to indicate the completion of this script
+cat "# DESKTOP SUCCESSFULLY INSTALLED!!!" > /tmp/chromedesktop_installed.txt
