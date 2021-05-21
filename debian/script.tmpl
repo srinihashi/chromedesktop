@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Cloud start-script would like something like this:
+# > curl -k https://raw.githubusercontent.com/srinihashi/chromedesktop/main/debian/script.tmpl -o /tmp/script.sh
+# > chmod a+x /tmp/script.sh
+# > /tmp/script.sh
+
 # Update the package manager data and install wget
 sudo apt update
 sudo apt-get install --assume-yes wget
@@ -32,6 +37,4 @@ sudo dpkg --install google-chrome-stable_current_amd64.deb
 sudo apt install --assume-yes --fix-broken
 
 # Create this file to indicate the completion of this script
-cat "# CHROME DESKTOP SUCCESSFULLY INSTALLED!!! \
-On your local computer, go to the Chrome Remote Desktop (https://remotedesktop.google.com/headless) \
-to setup a new desktop" > /tmp/chromedesktop_installed.txt
+cat "# CHROME DESKTOP SUCCESSFULLY INSTALLED!!! On your local computer, go to the Chrome Remote Desktop (https://remotedesktop.google.com/headless) to setup a new desktop" > /tmp/chromedesktop_installed.txt
